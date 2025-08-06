@@ -1,0 +1,29 @@
+node_modules/
+npm-debug.log
+.npm/
+
+# Build artifacts
+dist/
+build/
+coverage/
+
+# Editor/OS specific files
+.DS_Store
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Environment variables
+.env
+.env.local
+
+# Log files
+*.log
+
+# Test results
+junit.xml
+test-results.xml
+
+# IDE specific files (e.g., WebStorm)
+.idea/
