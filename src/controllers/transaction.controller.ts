@@ -1,10 +1,19 @@
 import { Request, Response } from "express";
 import { asyncHandler } from "../middlewares/asyncHandler.middleware";
-import { createTransactionSchema, transactionIdSchema } from "../validators/transaction.validator";
-import { createTransactionService, duplicateTransactionService, getAllTransactionService, getTransactionByIdService } from "../services/transaction.service";
+import {
+  createTransactionSchema,
+  transactionIdSchema,
+  updateTransactionSchema,
+} from "../validators/transaction.validator";
+import {
+  createTransactionService,
+  duplicateTransactionService,
+  getAllTransactionService,
+  getTransactionByIdService,
+  updateTransactionService,
+} from "../services/transaction.service";
 import { HTTPSTATUS } from "../utils/http_codes";
 import { TransactionTypeEnum } from "../models/transaction.model";
-
 
 export const createTransactionController = asyncHandler(
   async (req: Request, res: Response) => {
@@ -19,7 +28,6 @@ export const createTransactionController = asyncHandler(
     });
   }
 );
-
 
 export const getAllTransactionController = asyncHandler(
   async (req: Request, res: Response) => {
@@ -75,6 +83,20 @@ export const duplicateTransactionController = asyncHandler(
     return res.status(HTTPSTATUS.OK).json({
       message: "Transaction duplicated successfully",
       data: transaction,
+    });
+  }
+);
+
+export const updateTransactionController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = req.user?._id;
+    const transactionId = transactionIdSchema.parse(req.params.id);
+    const body = updateTransactionSchema.parse(req.body);
+
+    await updateTransactionService(userId, transactionId, body);
+
+    return res.status(HTTPSTATUS.OK).json({
+      message: "Transaction updated successfully",
     });
   }
 );
